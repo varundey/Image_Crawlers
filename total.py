@@ -1,36 +1,17 @@
 from bs4 import BeautifulSoup
 import requests
 #file = open('total.txt','a')
-for page in range(1,13272):
-        print page
-        website="https://archive.org/details/image?&sort=-downloads&page=%d"%page
-        r=requests.get(website)
-        soup=BeautifulSoup(r.content)
-        channel=soup.findAll("div",{"class":"collection-title C C2"})
-	for c in channel:
-	        h= "https://archive.org"+c.find('a').get('href')
-		q= BeautifulSoup(requests.get(h).content)
-#                print q
-		m=q.findAll("div",{"class":"tile-img"})
-#		print m
-		for x in m:
-			print x.find('a').find('img').get('source')
-
-	#print x
-		#x="https://archive.org"+str(i)
-		#print x
-'''
-		folder=BeautifulSoup(requests.get(x).content)
-		img=soup.findAll("img",{"class":"item-img"})
-		for z in img:
-			p=z.get("source")
-			print p
-'''
-	
-'''
-	for i in channel:
-		i=requests.get(i)
-		i=BeautifulSoup(i.content)
-		img=soup.findAll("img",{"class":"item-img"})
-		print img
-	'''
+for main_page in range(1,13284):
+	print main_page
+	website="https://archive.org/details/image?&sort=-downloads&page=%d"%main_page
+	soup=BeautifulSoup(requests.get(website).content)
+	channeldiv=soup.findAll("div",{"class":"collection-title C C2"})
+	for div in channeldiv:
+		for channel_page in range(1,10):
+			channel= "https://archive.org"+div.find('a').get('href')+"?&sort=-downloads&page=%d"%channel_page
+			print channel
+			channel_link= BeautifulSoup(requests.get(channel).content)
+			channel_link=channel_link.findAll("img",{"class":"item-img"})
+			for img in channel_link:
+				img= img.get('source')
+				print "https://archive.org/services/img/"+img[14:]
