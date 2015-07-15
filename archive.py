@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as b
 main_page=1
-file=open("archive1.txt","a")
+file=open("archive.txt","a")
 while True:
 	web="https://archive.org/details/image?&sort=-downloads&page=%d"%main_page
 	soup=b(requests.get(web).content)
