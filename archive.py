@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as b
-main_page=1
-file=open("archive.txt","a")
+main_page=574
+file=open("archive1.txt","a")
 while True:
 	web="https://archive.org/details/image?&sort=-downloads&page=%d"%main_page
 	soup=b(requests.get(web).content)
@@ -9,7 +9,7 @@ while True:
 	main_page+=1
 	for category in soup:
 		category_link=category.find('a').get('href')
-		category_name=category.find('a').find('div').text
+		category_name=(category.find('a').find('div').text).encode('utf-8')
 		file.write(str(category_name)+'\n')
 		file.write(str( "https://archive.org"+category_link)+'\n')
 		print category_name
