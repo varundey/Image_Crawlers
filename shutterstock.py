@@ -7,9 +7,7 @@ soup=b(requests.get(url).content)
 soup=soup.find("div",{"class":"secondary_links clearfix"})
 ul=soup.findAll("ul")
 for per_ul in ul:
-	li=per_ul.findAll('li')[3]
-	print li
-'''
+	li=per_ul.findAll('li')
 	for per_li in li:
 		category=per_li.find('a').text
 		category_link="http://www.shutterstock.com"+per_li.find('a').get('href')
@@ -36,4 +34,4 @@ for per_ul in ul:
 				#print desc
 				file.write(str(desc)+'\n')
 			page+=1
-'''
+
