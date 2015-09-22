@@ -1,5 +1,8 @@
 import requests
 from bs4 import BeautifulSoup as b
+import MySQLdb
+db = MySQLdb.connect("localhost","root","root","TESTDB")
+cursor = db.cursor()
 url="http://www.bigstockphoto.com/"
 
 
@@ -40,7 +43,7 @@ for per_category in categories:
 		if imgs:			
 			#####iterating over each img
 			for img in imgs:
-#				try:
+				try:
 				img_soup =b(requests.get("http://www.bigstockphoto.com"+img.find('a').get('href')).content,"lxml")
 				
 				img_info = img_soup.findAll("div",{"class":"bsp-shadow"})[1]
@@ -61,9 +64,13 @@ for per_category in categories:
 				
 				print width
 				
-#				except Exception as e:
-#					print e
-#					continue	
+				sql = '''INSERT INTO bigstock(category,cat_link,title,title_link,height,width) VALUES ("%s","%s","%s","%s","%s","%s")''' %(category_name,cat,img_desc,img_link,height,width)
+		cursor.execute(sql)
+		db.commit()
+				
+				except Exception as e:
+					print e
+					continue	
 	
 			page+=150
 							
